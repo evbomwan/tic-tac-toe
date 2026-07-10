@@ -1,0 +1,12 @@
+#game-controller {
+  border: 1px solid black;
+  height: 500px;
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  grid-template-rows: repeat(3, 200px);
+}
+.cell {
+  border: 1px solid black;
+  width: 200px;
+  height: 100px;
+}

@@ -3,10 +3,23 @@ function Player(name, marker) {
   this.name = name;
   this.marker = marker;
 }
-const player1 = new Player("James", "O");
-const player2 = new Player("Paul", "X");
+let playerStatus = document.getElementById("status");
+const player1 = new Player("Player one", "O");
+const player2 = new Player("Player two", "X");
 let currentPlayer = player1;
+playerStatus.textContent = `${currentPlayer.name}'s turn`;
 let gameOver = false;
+
+// restart game
+function restartGame() {
+  gameBoard.resetBoard();
+  currentPlayer = player1;
+  gameOver = false;
+  playerStatus.textContent = `${currentPlayer.name}'s turn`;
+  displayController.render();
+}
+let restartBtn = document.getElementById("restart");
+restartBtn.addEventListener("click", restartGame);
 // the function that controls the game
 function gameController(index) {
   if (gameOver) {
@@ -19,15 +32,16 @@ function gameController(index) {
   const winner = gameBoard.checkWinner();
   if (winner) {
     gameOver = true;
-    console.log(`${currentPlayer.name} wins!`);
+    playerStatus.textContent = `${currentPlayer.name} wins!`;
     return;
   }
   if (gameBoard.checkDraw()) {
     gameOver = true;
-    console.log("It's a draw");
+    playerStatus.textContent = "It is a draw";
     return;
   }
   switchPlayer();
+  playerStatus.textContent = `${currentPlayer.name}'s turn`;
 }
 function switchPlayer() {
   if (currentPlayer === player1) {
@@ -76,38 +90,41 @@ const gameBoard = (() => {
   function getBoard() {
     return [...board];
   }
+  // reset board
+  function resetBoard() {
+    board.fill("");
+  }
   return {
     playRound,
     checkWinner,
     checkDraw,
     getBoard,
+    resetBoard,
   };
 })();
 
 // IIEF for displaying the dom
 const displayController = (() => {
-const cells = document.querySelectorAll(".cell");
+  const cells = document.querySelectorAll(".cell");
 
-// function for rendering 
-function render() {
-  const board = gameBoard.getBoard();
+  // function for rendering
+  function render() {
+    const board = gameBoard.getBoard();
 
+    cells.forEach((cell, index) => {
+      cell.textContent = board[index];
+    });
+  }
   cells.forEach((cell, index) => {
-    cell.textContent = board[index];
-  })
-};
-cells.forEach((cell, index) => {
-  cell.addEventListener("click", ()=>{
-    gameController(index);
-    render();
+    cell.addEventListener("click", () => {
+      gameController(index);
+      render();
     });
   });
 
+  render();
 
-render();
-
-return {
-  render,
-}
+  return {
+    render,
+  };
 })();
-
