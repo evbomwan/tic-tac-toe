@@ -1,28 +1,66 @@
 // player
- function Player(name, marker) {
-    this.name = name;
-    this.marker = marker;
+function Player(name, marker) {
+  this.name = name;
+  this.marker = marker;
+}
+const player1 = new Player("James", "O");
+const player2 = new Player("Paul", "X");
+let currentPlayer = player1;
+// the function that controls the game
+function gameController(index) {
+  const moveSuccesful = gameBoard.playRound(index);
+  if (!moveSuccesful){
+    return;
   }
-  const player1 = new Player("James", "O");
-  const player2 = new Player("Paul", "X");
-  let currentPlayer = player1;
+  switchPlayer();
+}
+ function switchPlayer() {
+    if (currentPlayer === player1) {
+      currentPlayer = player2;
+    } else {
+      currentPlayer = player1;
+    }
+  }
 // IIFE
 const gameBoard = (() => {
-  const board = ["", "", "", "", "", "", "", "", ""];
-//  function for playing a single round
+  const board = ["", "", "",
+                 "", "", "", 
+                 "", "", ""];
+  //  function for playing a single round
   function playRound(index) {
-    if (board[index] !=="") {
-      return;
+    if (board[index] !== "") {
+      return false;
     } else {
       board[index] = currentPlayer.marker;
-      if (currentPlayer === player1){
-        currentPlayer = player2;
-      } else {
-        currentPlayer = player1;
-      }
+      return true;
       
     }
   }
-  playRound(7);
+  // function to check the winner
+  function checkWinner(){
+    const winningCombinations = [
+      [0,1,2],
+      [3,4,5],
+      [6,7,8],
+      [0,3,6],
+      [1,4,7],
+      [2,5,8],
+      [0,4,8],
+      [2,4,6]
+    ]
+    for (const combination of winningCombinations){
+      if (board[a] !== "" &&
+          board[a] === board[b] &&
+          board[b] === board[c]
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  return {
+    playRound,
+  };
+  
 })();
-const gameController;
