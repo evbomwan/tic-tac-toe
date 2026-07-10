@@ -19,7 +19,7 @@ function gameController(index) {
   const winner = gameBoard.checkWinner();
   if (winner) {
     gameOver = true;
-    console.log(`${winner} wins`);
+    console.log(`${currentPlayer.name} wins!`);
     return;
   }
   if (gameBoard.checkDraw()) {
@@ -74,7 +74,7 @@ const gameBoard = (() => {
   }
   // to get the board
   function getBoard() {
-    return board;
+    return [...board];
   }
   return {
     playRound,
@@ -83,3 +83,31 @@ const gameBoard = (() => {
     getBoard,
   };
 })();
+
+// IIEF for displaying the dom
+const displayController = (() => {
+const cells = document.querySelectorAll(".cell");
+
+// function for rendering 
+function render() {
+  const board = gameBoard.getBoard();
+
+  cells.forEach((cell, index) => {
+    cell.textContent = board[index];
+  })
+};
+cells.forEach((cell, index) => {
+  cell.addEventListener("click", ()=>{
+    gameController(index);
+    render();
+    });
+  });
+
+
+render();
+
+return {
+  render,
+}
+})();
+
