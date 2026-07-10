@@ -12,6 +12,14 @@ function gameController(index) {
   if (!moveSuccesful){
     return;
   }
+  const winner = gameBoard.checkWinner();
+  if (winner) {
+    console.log(`${winner} wins`);
+    return;
+  }
+  if (gameBoard.checkDraw()){
+    console.log("It's a draw")
+  }
   switchPlayer();
 }
  function switchPlayer() {
@@ -49,18 +57,24 @@ const gameBoard = (() => {
       [2,4,6]
     ]
     for (const combination of winningCombinations){
+      const [a,b,c] = combination;
       if (board[a] !== "" &&
           board[a] === board[b] &&
           board[b] === board[c]
       ) {
-        return true;
+        return board[a];
       }
     }
-    return false;
+    return null;
   }
-  
+  // function for checking for draw
+  function checkDraw() {
+    return board.every(square => square !== "");
+  }
   return {
     playRound,
+    checkWinner,
+    checkDraw,
   };
   
 })();
