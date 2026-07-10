@@ -29,9 +29,11 @@ body {
     cursor: pointer;
     background: white;
     border-radius: 10px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 .cell:hover{
-    background: #ececec;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
 }
 #restart{
     padding: 12px 30px;
@@ -39,7 +41,12 @@ body {
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.2s ease, transfrom 0.2s ease;
 }
 #status{
     font-size: 1.3rem;
+}
+h1{
+    font-size: 3rem;
+    text-align: center;
 }
