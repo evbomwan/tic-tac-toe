@@ -8,6 +8,7 @@ let player2;
  let playerStatus = document.getElementById("status");
  let gameStarted = false;
  let gameDomDisplay = document.getElementById("game-controller");
+ const setup = document.getElementById("setup");
 // function for starting game btn
 function startGame() {
   gameDomDisplay.style.display = "grid";
@@ -16,7 +17,11 @@ function startGame() {
   player1 = new Player(playerOneName || "Player one", "o");
   player2 = new Player(playerTwoName || "Player two", "x");
   gameStarted = true;
+  setup.style.display = "none";
+  setup.classList.add("hidden");
+  restartBtn.style.display = "block"
   restartGame();
+
 }
 const startbtn = document.getElementById("start-game");
 startbtn.addEventListener("click", startGame);
@@ -36,6 +41,7 @@ function restartGame() {
 }
 let restartBtn = document.getElementById("restart");
 restartBtn.addEventListener("click", restartGame);
+restartBtn.style.display = "none"
 // the function that controls the game
 function gameController(index) {
 
