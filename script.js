@@ -3,15 +3,31 @@ function Player(name, marker) {
   this.name = name;
   this.marker = marker;
 }
-let playerStatus = document.getElementById("status");
-const player1 = new Player("Player one", "O");
-const player2 = new Player("Player two", "X");
-let currentPlayer = player1;
-playerStatus.textContent = `${currentPlayer.name}'s turn`;
+let player1;
+let player2;
+ let playerStatus = document.getElementById("status");
+ let gameStarted = false;
+ let gameDomDisplay = document.getElementById("game-controller");
+// function for starting game btn
+function startGame() {
+  gameDomDisplay.style.display = "grid";
+  const playerOneName = document.getElementById("player-one").value;
+  const playerTwoName = document.getElementById("player-two").value;
+  player1 = new Player(playerOneName || "Player one", "o");
+  player2 = new Player(playerTwoName || "Player two", "x");
+  gameStarted = true;
+  restartGame();
+}
+const startbtn = document.getElementById("start-game");
+startbtn.addEventListener("click", startGame);
+let currentPlayer;
 let gameOver = false;
 
 // restart game
 function restartGame() {
+  if (!gameStarted){
+    return;
+  }
   gameBoard.resetBoard();
   currentPlayer = player1;
   gameOver = false;
@@ -22,6 +38,10 @@ let restartBtn = document.getElementById("restart");
 restartBtn.addEventListener("click", restartGame);
 // the function that controls the game
 function gameController(index) {
+
+  if (!gameStarted) {
+    return;
+  }
   if (gameOver) {
     return;
   }
